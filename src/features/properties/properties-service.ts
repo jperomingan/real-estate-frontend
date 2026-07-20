@@ -1,9 +1,12 @@
 import { apiClient } from "@/lib/api-client";
 
 import type {
+  CreatePropertyInput,
+  Property,
   PropertyListData,
   PropertyListParams,
   PropertyListResponse,
+  PropertyMutationResponse,
 } from "./properties-types";
 
 export const propertiesService = {
@@ -39,52 +42,70 @@ export const propertiesService = {
               : {}),
 
             ...(params.province
-              ? {
-                  province:
-                    params.province,
-                }
+              ? { province: params.province }
               : {}),
 
             ...(params.barangay
+              ? { barangay: params.barangay }
+              : {}),
+
+            ...(params.minPrice !== undefined
+              ? { minPrice: params.minPrice }
+              : {}),
+
+            ...(params.maxPrice !== undefined
+              ? { maxPrice: params.maxPrice }
+              : {}),
+
+            ...(params.minLotAreaSqm !== undefined
               ? {
-                  barangay:
-                    params.barangay,
+                  minLotAreaSqm:
+                    params.minLotAreaSqm,
                 }
               : {}),
 
-            ...(params.minPrice !==
-            undefined
+            ...(params.maxLotAreaSqm !== undefined
               ? {
-                  minPrice:
-                    params.minPrice,
+                  maxLotAreaSqm:
+                    params.maxLotAreaSqm,
                 }
               : {}),
 
-            ...(params.maxPrice !==
-            undefined
+            ...(params.minFloorAreaSqm !== undefined
               ? {
-                  maxPrice:
-                    params.maxPrice,
+                  minFloorAreaSqm:
+                    params.minFloorAreaSqm,
                 }
               : {}),
 
-            ...(params.bedrooms !==
-            undefined
+            ...(params.maxFloorAreaSqm !== undefined
               ? {
-                  bedrooms:
-                    params.bedrooms,
+                  maxFloorAreaSqm:
+                    params.maxFloorAreaSqm,
                 }
               : {}),
 
-            ...(params.bathrooms !==
-            undefined
-              ? {
-                  bathrooms:
-                    params.bathrooms,
-                }
+            ...(params.bedrooms !== undefined
+              ? { bedrooms: params.bedrooms }
+              : {}),
+
+            ...(params.bathrooms !== undefined
+              ? { bathrooms: params.bathrooms }
               : {}),
           },
         },
+      );
+
+    return response.data.data;
+  },
+
+  async createProperty(
+    input: CreatePropertyInput,
+  ): Promise<Property> {
+    const response =
+      await apiClient.post<PropertyMutationResponse>(
+        "/properties",
+        input,
       );
 
     return response.data.data;

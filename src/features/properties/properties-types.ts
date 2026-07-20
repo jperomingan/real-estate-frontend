@@ -113,3 +113,36 @@ export interface PropertyListParams {
   page?: number;
   limit?: number;
 }
+
+export interface CreatePropertyInput {
+  title: string;
+  description?: string;
+
+  type: PropertyType;
+  status: PropertyStatus;
+
+  price: number;
+  lotAreaSqm?: number;
+  floorAreaSqm?: number;
+
+  bedrooms?: number;
+  bathrooms?: number;
+
+  address: string;
+  barangay?: string;
+  city: string;
+  province: string;
+  zipCode?: string;
+
+  latitude?: number;
+  longitude?: number;
+
+  brokerId?: string;
+  imageUrls?: string[];
+}
+
+export interface PropertyMutationResponse {
+  success?: boolean;
+  message: string;
+  data: Property;
+}
