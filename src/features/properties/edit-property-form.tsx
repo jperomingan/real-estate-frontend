@@ -18,7 +18,6 @@ import {
 } from "next/navigation";
 import {
   type FormEvent,
-  useEffect,
   useState,
 } from "react";
 
@@ -215,11 +214,6 @@ function EditPropertyContent({
     setValidationError,
   ] = useState<string | null>(null);
 
-  useEffect(() => {
-    setValues(
-      propertyToFormValues(property),
-    );
-  }, [property]);
 
   const mutation = useMutation({
     mutationFn: (
