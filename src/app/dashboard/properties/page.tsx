@@ -1,10 +1,5 @@
-import { ModulePlaceholder } from "@/components/layout/module-placeholder";
+import { PropertiesList } from "@/features/properties/properties-list";
 
 export default function PropertiesPage() {
-  return (
-    <ModulePlaceholder
-      title="Properties"
-      description="Manage property listings, availability, pricing, and details."
-    />
-  );
+  return <PropertiesList />;
 }
