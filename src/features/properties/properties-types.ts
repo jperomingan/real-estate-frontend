@@ -61,6 +61,10 @@ export interface Property {
   longitude: number | string | null;
 
   brokerId: string | null;
+  broker?: PropertyBroker | null;
+
+  images?: PropertyImage[];
+  imageUrls?: string[];
 
   createdAt: string;
   updatedAt: string;
@@ -145,4 +149,19 @@ export interface PropertyMutationResponse {
   success?: boolean;
   message: string;
   data: Property;
+}
+
+export interface PropertyImage {
+  id: string;
+  url: string;
+  sortOrder: number;
+  createdAt?: string;
+}
+
+export interface PropertyBroker {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string | null;
 }

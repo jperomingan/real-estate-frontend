@@ -42,19 +42,31 @@ export const propertiesService = {
               : {}),
 
             ...(params.province
-              ? { province: params.province }
+              ? {
+                  province:
+                    params.province,
+                }
               : {}),
 
             ...(params.barangay
-              ? { barangay: params.barangay }
+              ? {
+                  barangay:
+                    params.barangay,
+                }
               : {}),
 
             ...(params.minPrice !== undefined
-              ? { minPrice: params.minPrice }
+              ? {
+                  minPrice:
+                    params.minPrice,
+                }
               : {}),
 
             ...(params.maxPrice !== undefined
-              ? { maxPrice: params.maxPrice }
+              ? {
+                  maxPrice:
+                    params.maxPrice,
+                }
               : {}),
 
             ...(params.minLotAreaSqm !== undefined
@@ -86,14 +98,31 @@ export const propertiesService = {
               : {}),
 
             ...(params.bedrooms !== undefined
-              ? { bedrooms: params.bedrooms }
+              ? {
+                  bedrooms:
+                    params.bedrooms,
+                }
               : {}),
 
             ...(params.bathrooms !== undefined
-              ? { bathrooms: params.bathrooms }
+              ? {
+                  bathrooms:
+                    params.bathrooms,
+                }
               : {}),
           },
         },
+      );
+
+    return response.data.data;
+  },
+
+  async getPropertyById(
+    id: string,
+  ): Promise<Property> {
+    const response =
+      await apiClient.get<PropertyMutationResponse>(
+        `/properties/${id}`,
       );
 
     return response.data.data;
@@ -109,5 +138,13 @@ export const propertiesService = {
       );
 
     return response.data.data;
+  },
+
+  async deleteProperty(
+    id: string,
+  ): Promise<void> {
+    await apiClient.delete(
+      `/properties/${id}`,
+    );
   },
 };

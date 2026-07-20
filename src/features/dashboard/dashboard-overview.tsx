@@ -5,8 +5,8 @@ import {
   Banknote,
   Building2,
   CalendarDays,
-  CircleDollarSign,
   LoaderCircle,
+  PhilippinePeso,
   RefreshCw,
   TrendingUp,
   Users,
@@ -177,7 +177,7 @@ function DashboardContent({
         ),
       description:
         `${dashboard.revenue.totalRecords} revenue records`,
-      icon: CircleDollarSign,
+      icon: PhilippinePeso,
     },
   ];
 
@@ -187,7 +187,7 @@ function DashboardContent({
         <div>
           <p className="text-sm font-medium text-emerald-700">
             {dashboard.scope ===
-            "GLOBAL"
+              "GLOBAL"
               ? "Global overview"
               : "Broker overview"}
           </p>
@@ -249,7 +249,7 @@ function DashboardContent({
               .totalReceivable,
           )}
           description="Outstanding payment balance"
-          icon={CircleDollarSign}
+          icon={PhilippinePeso}
         />
       </section>
 

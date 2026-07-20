@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import {
   Bath,
@@ -115,7 +116,10 @@ function PropertyCard({
   property: Property;
 }) {
   return (
-    <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+    <Link
+      href={`/dashboard/properties/${property.id}`}
+      className="block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+    >
       <div className="flex h-44 items-center justify-center bg-slate-100 text-slate-400">
         <Building2 size={44} />
       </div>
@@ -210,7 +214,7 @@ function PropertyCard({
           )}
         </p>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -380,8 +384,8 @@ export function PropertiesList() {
               setType(
                 event.target
                   .value as
-                  | PropertyType
-                  | "",
+                | PropertyType
+                | "",
               );
               setPage(1);
             }}
@@ -411,8 +415,8 @@ export function PropertiesList() {
               setStatus(
                 event.target
                   .value as
-                  | PropertyStatus
-                  | "",
+                | PropertyStatus
+                | "",
               );
               setPage(1);
             }}
