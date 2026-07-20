@@ -299,25 +299,34 @@ function PropertyDetailsContent({
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleDelete}
-          disabled={
-            deleteMutation.isPending
-          }
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 text-sm font-semibold text-red-700 hover:bg-red-100 disabled:opacity-60"
-        >
-          {deleteMutation.isPending ? (
-            <LoaderCircle
-              size={17}
-              className="animate-spin"
-            />
-          ) : (
-            <Trash2 size={17} />
-          )}
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href={`/dashboard/properties/${property.id}/edit`}
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800"
+          >
+            Edit Property
+          </Link>
 
-          Delete Property
-        </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={
+              deleteMutation.isPending
+            }
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 text-sm font-semibold text-red-700 hover:bg-red-100 disabled:opacity-60"
+          >
+            {deleteMutation.isPending ? (
+              <LoaderCircle
+                size={17}
+                className="animate-spin"
+              />
+            ) : (
+              <Trash2 size={17} />
+            )}
+
+            Delete Property
+          </button>
+        </div>
       </header>
 
       {images.length > 0 ? (
@@ -385,7 +394,7 @@ function PropertyDetailsContent({
                 label="Bedrooms"
                 value={String(
                   property.bedrooms ??
-                    0,
+                  0,
                 )}
                 icon={BedDouble}
               />
@@ -394,7 +403,7 @@ function PropertyDetailsContent({
                 label="Bathrooms"
                 value={String(
                   property.bathrooms ??
-                    0,
+                  0,
                 )}
                 icon={Bath}
               />

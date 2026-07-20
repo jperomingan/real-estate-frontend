@@ -165,3 +165,5 @@ export interface PropertyBroker {
   email: string;
   phone: string | null;
 }
+export type UpdatePropertyInput =
+  Partial<CreatePropertyInput>;

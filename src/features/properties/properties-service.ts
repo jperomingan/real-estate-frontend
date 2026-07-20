@@ -7,6 +7,7 @@ import type {
   PropertyListParams,
   PropertyListResponse,
   PropertyMutationResponse,
+  UpdatePropertyInput,
 } from "./properties-types";
 
 export const propertiesService = {
@@ -134,6 +135,19 @@ export const propertiesService = {
     const response =
       await apiClient.post<PropertyMutationResponse>(
         "/properties",
+        input,
+      );
+
+    return response.data.data;
+  },
+
+  async updateProperty(
+    id: string,
+    input: UpdatePropertyInput,
+  ): Promise<Property> {
+    const response =
+      await apiClient.patch<PropertyMutationResponse>(
+        `/properties/${id}`,
         input,
       );
 
