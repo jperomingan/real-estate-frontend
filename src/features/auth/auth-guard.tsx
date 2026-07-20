@@ -14,11 +14,50 @@ interface AuthGuardProps {
   children: ReactNode;
 }
 
-function subscribeToAuth(): () => void {
-  return () => {};
+function subscribeToAuth(
+  callback: () => void,
+): () => void {
+  const handleStorage = (
+    event: StorageEvent,
+  ) => {
+    if (
+      event.key === null ||
+      event.key === "accessToken"
+    ) {
+      callback();
+    }
+  };
+
+  const handleAuthChange = () => {
+    callback();
+  };
+
+  window.addEventListener(
+    "storage",
+    handleStorage,
+  );
+
+  window.addEventListener(
+    "auth-change",
+    handleAuthChange,
+  );
+
+  return () => {
+    window.removeEventListener(
+      "storage",
+      handleStorage,
+    );
+
+    window.removeEventListener(
+      "auth-change",
+      handleAuthChange,
+    );
+  };
 }
 
-function getAccessTokenSnapshot(): string | null {
+function getAccessTokenSnapshot():
+  | string
+  | null {
   return authStorage.getAccessToken();
 }
 
@@ -26,22 +65,54 @@ function getServerAccessTokenSnapshot(): null {
   return null;
 }
 
-export function AuthGuard({ children }: AuthGuardProps) {
+function subscribeToHydration(): () => void {
+  return () => { };
+}
+
+function getClientHydrationSnapshot(): true {
+  return true;
+}
+
+function getServerHydrationSnapshot(): false {
+  return false;
+}
+
+export function AuthGuard({
+  children,
+}: AuthGuardProps) {
   const router = useRouter();
 
-  const accessToken = useSyncExternalStore(
-    subscribeToAuth,
-    getAccessTokenSnapshot,
-    getServerAccessTokenSnapshot,
-  );
+  const isHydrated =
+    useSyncExternalStore(
+      subscribeToHydration,
+      getClientHydrationSnapshot,
+      getServerHydrationSnapshot,
+    );
+
+  const accessToken =
+    useSyncExternalStore(
+      subscribeToAuth,
+      getAccessTokenSnapshot,
+      getServerAccessTokenSnapshot,
+    );
 
   useEffect(() => {
-    if (!accessToken) {
+    if (
+      isHydrated &&
+      !accessToken
+    ) {
       router.replace("/login");
     }
-  }, [accessToken, router]);
+  }, [
+    accessToken,
+    isHydrated,
+    router,
+  ]);
 
-  if (!accessToken) {
+  if (
+    !isHydrated ||
+    !accessToken
+  ) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50">
         <div className="flex items-center gap-3 text-slate-600">
@@ -50,7 +121,9 @@ export function AuthGuard({ children }: AuthGuardProps) {
             className="animate-spin"
           />
 
-          <span>Checking authentication...</span>
+          <span>
+            Checking authentication...
+          </span>
         </div>
       </div>
     );
