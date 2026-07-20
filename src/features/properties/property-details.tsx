@@ -28,6 +28,8 @@ import {
   useRouter,
 } from "next/navigation";
 
+import { getApiAssetUrl } from "@/lib/api-asset-url";
+import { PropertyImageManager } from "./property-image-manager";
 import { propertiesService } from "./properties-service";
 import type {
   Property,
@@ -146,7 +148,11 @@ function getPropertyImages(
     (url, index) => ({
       id: `${property.id}-${index}`,
       url,
+      altText: `Property image ${index + 1}`,
       sortOrder: index,
+      propertyId: property.id,
+      createdAt: property.createdAt,
+      updatedAt: property.updatedAt,
     }),
   );
 }
@@ -340,7 +346,7 @@ function PropertyDetailsContent({
                 className="min-h-64 rounded-2xl border border-slate-200 bg-slate-100 bg-cover bg-center shadow-sm"
                 style={{
                   backgroundImage:
-                    `url("${image.url}")`,
+                    `url("${getApiAssetUrl(image.url)}")`,
                 }}
               />
             ),
@@ -360,6 +366,11 @@ function PropertyDetailsContent({
           </div>
         </div>
       )}
+
+      <PropertyImageManager
+        propertyId={property.id}
+        images={property.images ?? []}
+      />
 
       <section className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <div className="space-y-6">

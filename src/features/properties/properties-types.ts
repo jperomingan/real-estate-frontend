@@ -154,8 +154,11 @@ export interface PropertyMutationResponse {
 export interface PropertyImage {
   id: string;
   url: string;
+  altText: string | null;
   sortOrder: number;
-  createdAt?: string;
+  propertyId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PropertyBroker {

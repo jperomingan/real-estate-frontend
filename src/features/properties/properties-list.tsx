@@ -29,6 +29,9 @@ import {
   type PropertyType,
   type SortOrder,
 } from "./properties-types";
+import {
+  getApiAssetUrl,
+} from "@/lib/api-asset-url";
 
 const moneyFormatter =
   new Intl.NumberFormat("en-PH", {
@@ -115,14 +118,27 @@ function PropertyCard({
 }: {
   property: Property;
 }) {
+  const coverImage =
+    property.images?.[0]?.url ??
+    property.imageUrls?.[0];
   return (
     <Link
       href={`/dashboard/properties/${property.id}`}
       className="block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     >
-      <div className="flex h-44 items-center justify-center bg-slate-100 text-slate-400">
-        <Building2 size={44} />
-      </div>
+      {coverImage ? (
+        <div
+          className="h-44 bg-slate-100 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              `url("${getApiAssetUrl(coverImage)}")`,
+          }}
+        />
+      ) : (
+        <div className="flex h-44 items-center justify-center bg-slate-100 text-slate-400">
+          <Building2 size={44} />
+        </div>
+      )}
 
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">
