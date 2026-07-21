@@ -14,6 +14,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Plus,
   Search,
   UserRound,
 } from "lucide-react";
@@ -493,16 +494,26 @@ export function ViewingsList() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-950">
-          Viewing Appointments
-        </h1>
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-950">
+            Viewing Appointments
+          </h1>
 
-        <p className="mt-2 text-sm text-slate-500">
-          Review property viewing
-          requests and appointment
-          schedules.
-        </p>
+          <p className="mt-2 text-sm text-slate-500">
+            Review property viewing
+            requests and appointment
+            schedules.
+          </p>
+        </div>
+
+        <Link
+          href="/dashboard/viewings/new"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800"
+        >
+          <Plus size={17} />
+          New Appointment
+        </Link>
       </header>
 
       <form

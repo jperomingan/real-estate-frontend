@@ -1,6 +1,7 @@
 import { apiClient } from "@/lib/api-client";
 
 import type {
+  CreateViewingInput,
   ViewingAppointment,
   ViewingListData,
   ViewingListParams,
@@ -72,6 +73,18 @@ export const viewingsService = {
     const response =
       await apiClient.get<ViewingMutationResponse>(
         `/viewings/${id}`,
+      );
+
+    return response.data.data;
+  },
+
+  async createViewing(
+    input: CreateViewingInput,
+  ): Promise<ViewingAppointment> {
+    const response =
+      await apiClient.post<ViewingMutationResponse>(
+        "/viewings",
+        input,
       );
 
     return response.data.data;

@@ -88,6 +88,16 @@ export interface ViewingListParams {
   limit?: number;
 }
 
+export interface CreateViewingInput {
+  propertyId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message?: string;
+  preferredDate: string;
+}
+
 export interface ViewingMutationResponse {
   success: boolean;
   message: string;
