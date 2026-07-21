@@ -225,6 +225,17 @@ export function ViewingActions({
   );
 
   const [
+    minimumRescheduleDate,
+  ] = useState(() =>
+    toDateTimeLocal(
+      new Date(
+        Date.now() +
+          5 * 60_000,
+      ),
+    ),
+  );
+
+  const [
     validationError,
     setValidationError,
   ] =
@@ -588,12 +599,9 @@ export function ViewingActions({
             <input
               type="datetime-local"
               value={rescheduleDate}
-              min={toDateTimeLocal(
-                new Date(
-                  Date.now() +
-                    5 * 60_000,
-                ),
-              )}
+              min={
+                minimumRescheduleDate
+              }
               onChange={(event) => {
                 setRescheduleDate(
                   event.target.value,
