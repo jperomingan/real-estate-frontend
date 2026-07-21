@@ -1,10 +1,7 @@
-import { ModulePlaceholder } from "@/components/layout/module-placeholder";
+import {
+  ViewingsList,
+} from "@/features/viewings/viewings-list";
 
 export default function ViewingsPage() {
-  return (
-    <ModulePlaceholder
-      title="Viewings"
-      description="Schedule and manage property viewing appointments."
-    />
-  );
+  return <ViewingsList />;
 }
