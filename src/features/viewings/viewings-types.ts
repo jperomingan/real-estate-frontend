@@ -98,6 +98,16 @@ export interface CreateViewingInput {
   preferredDate: string;
 }
 
+export interface UpdateViewingStatusInput {
+  status: ViewingStatus;
+  notes?: string;
+}
+
+export interface RescheduleViewingInput {
+  confirmedDate: string;
+  notes?: string;
+}
+
 export interface ViewingMutationResponse {
   success: boolean;
   message: string;

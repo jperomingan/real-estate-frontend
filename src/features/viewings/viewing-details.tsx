@@ -23,6 +23,9 @@ import {
 } from "next/navigation";
 
 import {
+  ViewingActions,
+} from "./viewing-actions";
+import {
   viewingsService,
 } from "./viewings-service";
 import type {
@@ -459,18 +462,9 @@ function ViewingDetailsContent({
             </div>
           </section>
 
-          <section className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6">
-            <h2 className="font-semibold text-slate-900">
-              Appointment Actions
-            </h2>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              Confirmation,
-              rescheduling, notes, and
-              status actions will be
-              added in the next step.
-            </p>
-          </section>
+          <ViewingActions
+            viewing={viewing}
+          />
         </aside>
       </div>
     </div>

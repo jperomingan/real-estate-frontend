@@ -2,6 +2,8 @@ import { apiClient } from "@/lib/api-client";
 
 import type {
   CreateViewingInput,
+  RescheduleViewingInput,
+  UpdateViewingStatusInput,
   ViewingAppointment,
   ViewingListData,
   ViewingListParams,
@@ -88,5 +90,39 @@ export const viewingsService = {
       );
 
     return response.data.data;
+  },
+
+  async updateViewingStatus(
+    id: string,
+    input: UpdateViewingStatusInput,
+  ): Promise<ViewingAppointment> {
+    const response =
+      await apiClient.patch<ViewingMutationResponse>(
+        `/viewings/${id}/status`,
+        input,
+      );
+
+    return response.data.data;
+  },
+
+  async rescheduleViewing(
+    id: string,
+    input: RescheduleViewingInput,
+  ): Promise<ViewingAppointment> {
+    const response =
+      await apiClient.patch<ViewingMutationResponse>(
+        `/viewings/${id}/reschedule`,
+        input,
+      );
+
+    return response.data.data;
+  },
+
+  async deleteViewing(
+    id: string,
+  ): Promise<void> {
+    await apiClient.delete(
+      `/viewings/${id}`,
+    );
   },
 };
