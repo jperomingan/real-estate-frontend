@@ -1,10 +1,7 @@
-import { ModulePlaceholder } from "@/components/layout/module-placeholder";
+import {
+  FollowUpsDashboard,
+} from "@/features/follow-ups/follow-ups-dashboard";
 
 export default function FollowUpsPage() {
-  return (
-    <ModulePlaceholder
-      title="Follow-ups"
-      description="Monitor pending lead follow-up tasks and deadlines."
-    />
-  );
+  return <FollowUpsDashboard />;
 }
