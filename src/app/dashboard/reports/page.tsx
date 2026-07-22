@@ -1,10 +1,7 @@
-import { ModulePlaceholder } from "@/components/layout/module-placeholder";
+import {
+  ReportsDashboard,
+} from "@/features/reports/reports-dashboard";
 
 export default function ReportsPage() {
-  return (
-    <ModulePlaceholder
-      title="Reports"
-      description="Review analytics and export real estate business reports."
-    />
-  );
+  return <ReportsDashboard />;
 }
