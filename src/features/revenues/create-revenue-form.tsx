@@ -32,6 +32,21 @@ import {
   toRevenueNumber,
 } from "./revenues-utils";
 
+function getLocalDateInputValue(): string {
+  const now = new Date();
+
+  const timezoneOffset =
+    now.getTimezoneOffset() *
+    60_000;
+
+  return new Date(
+    now.getTime() -
+      timezoneOffset,
+  )
+    .toISOString()
+    .slice(0, 10);
+}
+
 export function CreateRevenueForm() {
   const router = useRouter();
 
@@ -67,12 +82,15 @@ export function CreateRevenueForm() {
       "PENDING",
     );
 
+  const [
+    maximumSaleDate,
+  ] = useState(
+    getLocalDateInputValue,
+  );
+
   const [saleDate, setSaleDate] =
     useState(
-      () =>
-        new Date()
-          .toISOString()
-          .slice(0, 10),
+      maximumSaleDate,
     );
 
   const [notes, setNotes] =
@@ -297,14 +315,9 @@ export function CreateRevenueForm() {
       return;
     }
 
-    const selectedSaleDate =
-      new Date(
-        `${saleDate}T23:59:59`,
-      );
-
     if (
-      selectedSaleDate.getTime() >
-      Date.now()
+      saleDate >
+      maximumSaleDate
     ) {
       setValidationError(
         "Sale date must not be in the future.",
@@ -524,6 +537,7 @@ export function CreateRevenueForm() {
             <input
               type="date"
               value={saleDate}
+              max={maximumSaleDate}
               onChange={(event) =>
                 setSaleDate(
                   event.target.value,
