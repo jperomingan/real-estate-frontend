@@ -1,29 +1,42 @@
 "use client";
 
 import {
+  Bell,
   Building2,
   CalendarDays,
   ChartNoAxesCombined,
   ClipboardCheck,
   LayoutDashboard,
   LogOut,
-  Users,
   PhilippinePeso,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import {
   usePathname,
   useRouter,
 } from "next/navigation";
-import type { ReactNode } from "react";
+import type {
+  ReactNode,
+} from "react";
 
-import { authStorage } from "@/features/auth/auth-storage";
+import {
+  authStorage,
+} from "@/features/auth/auth-storage";
+import {
+  NotificationBell,
+} from "@/features/notifications/notification-bell";
 
 const navigation = [
   {
     name: "Dashboard",
     href: "/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    name: "Notifications",
+    href: "/dashboard/notifications",
+    icon: Bell,
   },
   {
     name: "Properties",
@@ -84,19 +97,25 @@ export function DashboardShell({
             <p className="text-sm font-semibold text-slate-950">
               Real Estate
             </p>
+
             <p className="text-xs text-slate-500">
               Management System
             </p>
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1 p-4">
+        <nav className="flex-1 space-y-1 overflow-y-auto p-4">
           {navigation.map((item) => {
             const Icon = item.icon;
+
             const isActive =
               pathname === item.href ||
-              (item.href !== "/dashboard" &&
-                pathname.startsWith(`${item.href}/`));
+              (
+                item.href !== "/dashboard" &&
+                pathname.startsWith(
+                  `${item.href}/`,
+                )
+              );
 
             return (
               <Link
@@ -129,15 +148,18 @@ export function DashboardShell({
       </aside>
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 flex h-20 items-center border-b border-slate-200 bg-white/90 px-6 backdrop-blur">
+        <header className="sticky top-0 z-20 flex h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white/90 px-6 backdrop-blur">
           <div>
             <p className="font-semibold text-slate-950">
               Real Estate Management System
             </p>
+
             <p className="text-sm text-slate-500">
               Lead Tracking Dashboard
             </p>
           </div>
+
+          <NotificationBell />
         </header>
 
         <main className="p-6 lg:p-8">
