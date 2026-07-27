@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LogOut,
   PhilippinePeso,
+  ScrollText,
   Users,
 } from "lucide-react";
 import Link from "next/link";
@@ -67,6 +68,11 @@ const navigation = [
     name: "Revenue",
     href: "/dashboard/revenues",
     icon: PhilippinePeso,
+  },
+  {
+    name: "Audit Logs",
+    href: "/dashboard/audit-logs",
+    icon: ScrollText,
   },
 ];
 
