@@ -10,8 +10,10 @@ import {
   LogOut,
   PhilippinePeso,
   ScrollText,
+  UserCog,
   Users,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import {
   usePathname,
@@ -25,10 +27,20 @@ import {
   authStorage,
 } from "@/features/auth/auth-storage";
 import {
+  useAuthUser,
+} from "@/features/auth/use-auth-user";
+import {
   NotificationBell,
 } from "@/features/notifications/notification-bell";
 
-const navigation = [
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  adminOnly?: boolean;
+}
+
+const navigation: NavigationItem[] = [
   {
     name: "Dashboard",
     href: "/dashboard",
@@ -73,6 +85,13 @@ const navigation = [
     name: "Audit Logs",
     href: "/dashboard/audit-logs",
     icon: ScrollText,
+    adminOnly: true,
+  },
+  {
+    name: "User Management",
+    href: "/dashboard/admin/users",
+    icon: UserCog,
+    adminOnly: true,
   },
 ];
 
@@ -85,6 +104,14 @@ export function DashboardShell({
 }: DashboardShellProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const authUser = useAuthUser();
+
+  const visibleNavigation =
+    navigation.filter(
+      (item) =>
+        !item.adminOnly ||
+        authUser?.role === "ADMIN",
+    );
 
   function handleLogout() {
     authStorage.clear();
@@ -111,7 +138,7 @@ export function DashboardShell({
         </div>
 
         <nav className="flex-1 space-y-1 overflow-y-auto p-4">
-          {navigation.map((item) => {
+          {visibleNavigation.map((item) => {
             const Icon = item.icon;
 
             const isActive =
