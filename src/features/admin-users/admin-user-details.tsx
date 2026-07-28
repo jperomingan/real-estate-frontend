@@ -19,7 +19,6 @@ import {
 import Link from "next/link";
 import {
   type ReactNode,
-  useEffect,
   useState,
 } from "react";
 import {
@@ -66,11 +65,11 @@ export function AdminUserDetails({
     useQueryClient();
 
   const [
-    selectedStatus,
-    setSelectedStatus,
+    draftStatus,
+    setDraftStatus,
   ] =
-    useState<AdminUserStatus | "">(
-      "",
+    useState<AdminUserStatus | null>(
+      null,
     );
 
   const userQuery = useQuery({
@@ -90,15 +89,9 @@ export function AdminUserDetails({
       "ADMIN",
   });
 
-  useEffect(() => {
-    if (userQuery.data) {
-      setSelectedStatus(
-        userQuery.data.status,
-      );
-    }
-  }, [userQuery.data]);
-
   async function refreshUser() {
+    setDraftStatus(null);
+
     await Promise.all([
       queryClient.invalidateQueries({
         queryKey: [
@@ -219,6 +212,10 @@ export function AdminUserDetails({
   const user =
     userQuery.data;
 
+  const selectedStatus =
+    draftStatus ??
+    user.status;
+
   const isCurrentUser =
     user.id === currentUser.id;
 
@@ -250,7 +247,6 @@ export function AdminUserDetails({
 
   function updateStatus() {
     if (
-      !selectedStatus ||
       selectedStatus ===
         user.status
     ) {
@@ -435,7 +431,7 @@ export function AdminUserDetails({
               <select
                 value={selectedStatus}
                 onChange={(event) =>
-                  setSelectedStatus(
+                  setDraftStatus(
                     event.target
                       .value as
                       AdminUserStatus,
@@ -461,7 +457,6 @@ export function AdminUserDetails({
             <button
               type="button"
               disabled={
-                !selectedStatus ||
                 selectedStatus ===
                   user.status ||
                 statusMutation
