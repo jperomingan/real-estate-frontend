@@ -1,6 +1,11 @@
 import axios from "axios";
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import {
+  authStorage,
+} from "@/features/auth/auth-storage";
+
+const apiUrl =
+  process.env.NEXT_PUBLIC_API_URL;
 
 if (!apiUrl) {
   throw new Error(
@@ -8,24 +13,86 @@ if (!apiUrl) {
   );
 }
 
-export const apiClient = axios.create({
-  baseURL: apiUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 15_000,
-});
+export const apiClient =
+  axios.create({
+    baseURL: apiUrl,
+    headers: {
+      "Content-Type":
+        "application/json",
+    },
+    timeout: 15_000,
+  });
 
-apiClient.interceptors.request.use((config) => {
-  if (typeof window === "undefined") {
+apiClient.interceptors.request.use(
+  (config) => {
+    if (
+      typeof window ===
+      "undefined"
+    ) {
+      return config;
+    }
+
+    const requestUrl =
+      config.url ?? "";
+
+    const isLoginRequest =
+      requestUrl.includes(
+        "/auth/login",
+      );
+
+    if (!isLoginRequest) {
+      const accessToken =
+        authStorage
+          .getAccessToken();
+
+      if (accessToken) {
+        config.headers.Authorization =
+          `Bearer ${accessToken}`;
+      }
+    }
+
     return config;
-  }
+  },
+);
 
-  const accessToken = localStorage.getItem("accessToken");
+apiClient.interceptors.response.use(
+  (response) => response,
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+  (error: unknown) => {
+    if (
+      axios.isAxiosError(
+        error,
+      ) &&
+      error.response?.status ===
+        401 &&
+      typeof window !==
+        "undefined"
+    ) {
+      const requestUrl =
+        error.config?.url ?? "";
 
-  return config;
-});
+      const isLoginRequest =
+        requestUrl.includes(
+          "/auth/login",
+        );
+
+      if (!isLoginRequest) {
+        authStorage.clear();
+
+        if (
+          window.location
+            .pathname !==
+          "/login"
+        ) {
+          window.location.replace(
+            "/login",
+          );
+        }
+      }
+    }
+
+    return Promise.reject(
+      error,
+    );
+  },
+);
