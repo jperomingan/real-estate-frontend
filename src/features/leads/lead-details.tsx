@@ -26,6 +26,10 @@ import {
 } from "next/navigation";
 import { useState } from "react";
 
+import {
+  LeadNotesPanel,
+} from "@/features/lead-notes/lead-notes-panel";
+
 import { leadsService } from "./leads-service";
 import {
   LEAD_STATUSES,
@@ -398,6 +402,10 @@ function LeadDetailsContent({
                 "No inquiry message was provided."}
             </p>
           </article>
+
+          <LeadNotesPanel
+            leadId={lead.id}
+          />
 
           <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">
