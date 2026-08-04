@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  FavoritePropertyButton,
+} from "@/features/favorites/favorite-property-button";
+
+
+import {
   useMutation,
   useQuery,
   useQueryClient,
@@ -306,6 +311,11 @@ function PropertyDetailsContent({
         </div>
 
         <div className="flex flex-wrap gap-3">
+          <FavoritePropertyButton
+            propertyId={property.id}
+            propertyStatus={property.status}
+          />
+
           <Link
             href={`/dashboard/properties/${property.id}/edit`}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 text-sm font-semibold text-white hover:bg-emerald-800"
