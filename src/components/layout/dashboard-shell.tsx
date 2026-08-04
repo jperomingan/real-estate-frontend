@@ -6,6 +6,7 @@ import {
   CalendarDays,
   ChartNoAxesCombined,
   ClipboardCheck,
+  Heart,
   LayoutDashboard,
   LogOut,
   PhilippinePeso,
@@ -38,6 +39,7 @@ interface NavigationItem {
   href: string;
   icon: LucideIcon;
   adminOnly?: boolean;
+  clientOnly?: boolean;
 }
 
 const navigation: NavigationItem[] = [
@@ -55,6 +57,12 @@ const navigation: NavigationItem[] = [
     name: "Properties",
     href: "/dashboard/properties",
     icon: Building2,
+  },
+  {
+    name: "Saved Properties",
+    href: "/dashboard/favorites",
+    icon: Heart,
+    clientOnly: true,
   },
   {
     name: "Leads",
@@ -109,8 +117,14 @@ export function DashboardShell({
   const visibleNavigation =
     navigation.filter(
       (item) =>
-        !item.adminOnly ||
-        authUser?.role === "ADMIN",
+        (
+          !item.adminOnly ||
+          authUser?.role === "ADMIN"
+        ) &&
+        (
+          !item.clientOnly ||
+          authUser?.role === "CLIENT"
+        ),
     );
 
   function handleLogout() {
